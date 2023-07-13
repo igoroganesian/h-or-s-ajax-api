@@ -66,6 +66,7 @@ async function submitStory(evt) {
 
   const $newStory = generateStoryMarkup(currStory);
   $allStoriesList.prepend($newStory);
+  $storySubmitForm.hide();
 }
 
 $storySubmitForm.on("submit", submitStory);

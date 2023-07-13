@@ -28,7 +28,10 @@ function submitClick(evt) {
   $storySubmitForm.show();
 }
 
-$navSubmitButton.on("click", submitClick);
+$navSubmitButton.on("click", () => {
+  submitClick;
+  $storySubmitForm.toggleClass("hidden")
+});
 
 /** Show login/signup on click on "login" */
 
