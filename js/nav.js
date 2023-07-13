@@ -1,6 +1,6 @@
 "use strict";
 
-const $submitButton = $("#nav-submit");
+const $navSubmitButton = $("#nav-submit");
 
 /******************************************************************************
  * Handling navbar clicks and updating navbar
@@ -19,16 +19,16 @@ $body.on("click", "#nav-all", navAllStories);
 
 /** Show submit form on click on "submit" */
 
+//rename function to showstory..
 function submitClick(evt) {
   console.log('button clicked: ', evt);
   // console.debug("submitClick", evt);
-  // evt.preventDefault(); //necessary?
   hidePageComponents();
   $allStoriesList.show();
-  $submitForm.show();
+  $storySubmitForm.show();
 }
 
-$submitButton.on("click", submitClick);
+$navSubmitButton.on("click", submitClick);
 
 /** Show login/signup on click on "login" */
 

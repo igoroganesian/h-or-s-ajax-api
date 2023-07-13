@@ -24,8 +24,7 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    return JSON.stringify(this.url);
   }
 }
 
@@ -85,7 +84,8 @@ class StoryList {
 
     const newStory = new Story(response.data.story);
 
-    return newStory; //check if instance of Story
+    return newStory;
+    //TODO: add to list
   }
 }
 

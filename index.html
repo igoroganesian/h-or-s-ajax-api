@@ -50,20 +50,21 @@
 <section class="stories-container container">
 
   <!-- story submit form -->
-  <form action="" class="hidden" id="submit-form">
+  <form action="" class="hidden" id="story-submit-form">
     <div>
       <label for="author-input">author</label>
-      <input type="" id="author-input" required placeholder="author">
+      <input id="author-input" required placeholder="author">
     </div>
     <div>
       <label for="title-input">title</label>
-      <input type="" id="title-input" required placeholder="title">
+      <input id="title-input" required placeholder="title">
     </div>
     <div>
       <label for="url-input">url</label>
-      <input type="" id="url-input" required placeholder="url">
+      <input id="url-input" required placeholder="url">
     </div>
-    <button type="submit">add story</button>
+    <!-- more specific id -->
+    <button type="submit" id="story-submit-button">add story</button>
   </form>
 
   <!-- loading message (removed by JS after stories loaded) -->
