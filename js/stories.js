@@ -70,3 +70,20 @@ async function submitStory(evt) {
 }
 
 $storySubmitForm.on("submit", submitStory);
+
+/** Only show favorites section */
+
+function putFavoritesOnPage() {
+  hidePageComponents();
+  $favoriteStoriesList.empty();
+
+  // loop through all of our stories and generate HTML for them
+  for (let story of currentUser.favorites) {
+    const $story = generateStoryMarkup(story);
+    $favoriteStoriesList.append($story);
+  }
+
+  $favoriteStoriesList.show();
+}
+
+$favoritesButton.on("click", putFavoritesOnPage);
