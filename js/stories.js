@@ -105,28 +105,30 @@ $favoritesButton.on("click", putFavoritesOnPage);
 async function toggleFavorite(evt) {
   //target story and addFavorite/removeFavorite
   const $target = $(evt.target);//.closest("i");
+  console.log("$target: ", $target);
   const $targetStoryId = $target.closest("li").attr("id");
-  const $targetStory = storyList.stories.find(story =>
+  console.log("$targetStoryId: ", $targetStoryId);
+
+  //doesn't need to be jQuery object!
+  const targetStory = storyList.stories.find(story =>
     story.storyId === $targetStoryId);
     //filter returns [Story] vs Story
-
+   console.log('targetStory: ', targetStory);
   if ($target.hasClass("fa-regular")) {
     // console.log($targetStory);
-    await currentUser.addFavorite($targetStory);
+    await currentUser.addFavorite(targetStory);
     $target.toggleClass("fa-regular fa-solid");
   } else {
     // console.log($targetStory);
-    await currentUser.removeFavorite($targetStory);
+    await currentUser.removeFavorite(targetStory);
     $target.toggleClass("fa-regular fa-solid");
   }
 }
 
 $allStoriesList.on("click", ".fa-bookmark", toggleFavorite);
-// $bookmark.on("click", toggleFavorite);
 //on button instead? gets mad when clicking elsewhere *add argument!
 
 $favoriteStoriesList.on("click", ".fa-bookmark", toggleFavorite);
-//can only have solid bookmarks!
 
 // const $storiesLists = ;
 

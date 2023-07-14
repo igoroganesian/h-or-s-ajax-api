@@ -219,7 +219,9 @@ class User {
   }
 
   async removeFavorite(story) {
-    // console.log(`removeFavorite: `, story);
+    //TODO: favoritesList can't read storyId from click handler
+
+    console.log(`removeFavorite: `, story);
     const storyIndex = this.favorites.indexOf(story);
     this.favorites.splice(storyIndex, 1);
 ///users/username/favorites/storyId
