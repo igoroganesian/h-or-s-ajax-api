@@ -105,15 +105,20 @@ $favoritesButton.on("click", putFavoritesOnPage);
 async function toggleFavorite(evt) {
   //target story and addFavorite/removeFavorite
   const $target = $(evt.target);//.closest("i");
-  console.log("$target: ", $target);
+  // console.log("$target: ", $target);
   const $targetStoryId = $target.closest("li").attr("id");
   console.log("$targetStoryId: ", $targetStoryId);
 
+  const $returnedStory = await Story.getStoryId($targetStoryId);
+  const $returnedStoryId = $returnedStory.storyId;
+
+  console.log("$returnedStoryId: ", $returnedStoryId);
+
   //doesn't need to be jQuery object!
   const targetStory = storyList.stories.find(story =>
-    story.storyId === $targetStoryId);
+    story.storyId === $returnedStoryId);
     //filter returns [Story] vs Story
-   console.log('targetStory: ', targetStory);
+  //  console.log('targetStory: ', targetStory);
   if ($target.hasClass("fa-regular")) {
     // console.log($targetStory);
     await currentUser.addFavorite(targetStory);

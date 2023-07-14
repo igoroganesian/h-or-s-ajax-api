@@ -26,6 +26,18 @@ class Story {
   getHostName() {
     return JSON.stringify(this.url);
   }
+
+  //TODO: finish function to call in favorites list?
+  //hack-or-snooze-v3.herokuapp.com/stories/storyId
+  // const stories = response.data.stories.map(story => new Story(story));
+
+  static async getStoryId(storyId) {
+    const response = await axios({
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: "GET",
+    });
+    return new Story(response.data.story);
+  }
 }
 
 
@@ -225,12 +237,19 @@ class User {
     const storyIndex = this.favorites.indexOf(story);
     this.favorites.splice(storyIndex, 1);
 ///users/username/favorites/storyId
-    const token = this.loginToken;
-    await axios({
-      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
-      method: "DELETE",
-      data: { token },
-    });
+    const $receivedStory = Story.getStoryId(story.storyId);
+    console.log("$receivedStory: ", $receivedStory);
+    console.log(typeof $receivedStory);
+    const $getId = $receivedStory;
+    console.log("$getId:", $getId);
+    console.log(typeof $getId);
+    // const token = this.loginToken;
+    // await axios({
+    //   // url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+    //   url: `${BASE_URL}/users/${this.username}/favorites/${$getId}`,
+    //   method: "DELETE",
+    //   data: { token },
+    // });
   }
 
 }
