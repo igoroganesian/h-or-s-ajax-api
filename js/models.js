@@ -31,6 +31,7 @@ class Story {
   //hack-or-snooze-v3.herokuapp.com/stories/storyId
   // const stories = response.data.stories.map(story => new Story(story));
 
+  //rename, docstr
   static async getStoryId(storyId) {
     const response = await axios({
       url: `${BASE_URL}/stories/${storyId}`,
@@ -217,8 +218,13 @@ class User {
     }
   }
 
-  /** accepts story instance; adds to favorites list;
-   *  sends request to inform API */
+ /** checks user favorites for target story instance and returns boolean to markup */
+  savedFavorite(story) {
+    return this.favorites.some(f => f.storyId === story.storyId);
+  }
+
+  //TODO: api, return
+  /** adds story instance to user.favorites and favorites list */
   async addFavorite(story) {
     const token = this.loginToken;
     await axios({
@@ -230,24 +236,22 @@ class User {
     this.favorites.push(story);
   }
 
+  /** removes favorited story from user.favorites and favorites list */
   async removeFavorite(story) {
 
     console.log(`removeFavoriteTarget: `, story);
     const storyIndex = this.favorites.indexOf(story);
     this.favorites.splice(storyIndex, 1);
 
+    //jquery??
     const $receivedStory = await Story.getStoryId(story.storyId);
     const $getId = $receivedStory.storyId;
     const token = this.loginToken;
-
+//rearrange
     await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${$getId}`,
       method: "DELETE",
       data: { token },
     });
-  }
-
-  savedFavorite(story) {
-    return this.favorites.some(f => f.storyId === story.storyId);
   }
 }

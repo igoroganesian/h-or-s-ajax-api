@@ -42,6 +42,8 @@ function generateStoryMarkup(story) {
     `);
 }
 
+/**  */
+//names
 function saveFavoriteIcon(story, user) {
   const favoriteStory = user.savedFavorite(story);
   if (favoriteStory) {
@@ -93,7 +95,7 @@ async function submitStory(evt) {
 
 $storySubmitForm.on("submit", submitStory);
 
-/** Only show favorites section */
+/** Only show favorites section ++*/
 
 function putFavoritesOnPage() {
   hidePageComponents();
@@ -104,8 +106,6 @@ function putFavoritesOnPage() {
     const $story = generateStoryMarkup(story);
     $favoriteStoriesList.append($story);
   }
-  $(".fa-bookmark").toggleClass("fa-solid fa-regular");
-  //TODO: correct icon, storyId still undefined
 
   $favoriteStoriesList.show();
 }
@@ -115,19 +115,18 @@ $favoritesButton.on("click", putFavoritesOnPage);
 /** Adds/removes favorite and toggles icon */
 
 async function toggleFavorite(evt) {
-  const $target = $(evt.target);//.closest("i");
+  const $target = $(evt.target);//.closest("i"); only useful $
   const $targetStoryId = $target.closest("li").attr("id");
   //gets ID from API...again?? via static lookup? why???
   const $returnedStory = await Story.getStoryId($targetStoryId);
   const $returnedStoryId = $returnedStory.storyId;
 
   //doesn't need to be jQuery object
-  let targetStory = storyList.stories.find(story =>
-    story.storyId === $returnedStoryId);
-  //combine these two /\   \/
+  //can remove both below
+  let targetStory = storyList.stories.find(story => story.storyId === $returnedStoryId);
+  //both unnecessary now due to list memory working correctly
   if ($target.hasClass("fa-solid")) {
-    targetStory = currentUser.favorites.find(story =>
-      story.storyId === $returnedStoryId);
+    targetStory = currentUser.favorites.find(story => story.storyId === $returnedStoryId);
     await currentUser.removeFavorite(targetStory);
     $target.toggleClass("fa-regular fa-solid");
   } else {
