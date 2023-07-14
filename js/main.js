@@ -12,12 +12,12 @@ const $storySubmitForm = $("#story-submit-form");
 const $storySubmitButton = $("#story-submit-button");
 
 const $favoritesButton = $("#nav-favorites");
-const $notBookmarkedButton = $(".fa-regular");
-const $bookmarkedButton = $(".fa-solid");
+const $bookmark = $(".fa-bookmark");
 
 const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");
 
+const $home = $("#nav-all");
 const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");

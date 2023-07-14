@@ -12,6 +12,13 @@ async function getAndShowStoriesOnStart() {
   putStoriesOnPage();
 }
 
+/** Hides favorites list when returning to home page */
+
+$home.on("click", () => {
+  putStoriesOnPage;
+  $favoriteStoriesList.hide();
+});
+
 /**
  * A render method to render HTML for an individual Story instance
  * - story: an instance of Story
@@ -85,32 +92,41 @@ function putFavoritesOnPage() {
     const $story = generateStoryMarkup(story);
     $favoriteStoriesList.append($story);
   }
+  $(".fa-bookmark").toggleClass("fa-solid fa-regular");
+  //TODO: correct icon, storyId still undefined
 
   $favoriteStoriesList.show();
 }
 
 $favoritesButton.on("click", putFavoritesOnPage);
 
-/** Adds/removes favorite and toggles icon (currently UI only) */
+/** Adds/removes favorite and toggles icon */
 
-function toggleFavorite(evt) {
-  //localStorage to stay on refresh? >:(
-
+async function toggleFavorite(evt) {
   //target story and addFavorite/removeFavorite
-  const $target = $(evt.target);
-
+  const $target = $(evt.target);//.closest("i");
+  const $targetStoryId = $target.closest("li").attr("id");
+  const $targetStory = storyList.stories.find(story =>
+    story.storyId === $targetStoryId);
+    //filter returns [Story] vs Story
 
   if ($target.hasClass("fa-regular")) {
-    $target.closest("i").removeClass("fa-regular");
-    $target.closest("i").addClass("fa-solid");
-    console.log($target.closest("li").storyId); //??
-    // addFavorite(story); //story = ?
+    // console.log($targetStory);
+    await currentUser.addFavorite($targetStory);
+    $target.toggleClass("fa-regular fa-solid");
   } else {
-    $target.closest("i").removeClass("fa-solid");
-    $target.closest("i").addClass("fa-regular");
-    console.log($target.closest("li").story.storyId); //??
-    // removeFavorite(story); //story = ?
+    // console.log($targetStory);
+    await currentUser.removeFavorite($targetStory);
+    $target.toggleClass("fa-regular fa-solid");
   }
 }
 
-$allStoriesList.on("click", toggleFavorite);
+$allStoriesList.on("click", ".fa-bookmark", toggleFavorite);
+// $bookmark.on("click", toggleFavorite);
+//on button instead? gets mad when clicking elsewhere *add argument!
+
+$favoriteStoriesList.on("click", ".fa-bookmark", toggleFavorite);
+//can only have solid bookmarks!
+
+// const $storiesLists = ;
+
