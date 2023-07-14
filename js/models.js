@@ -83,9 +83,9 @@ class StoryList {
     });
 
     const newStory = new Story(response.data.story);
+    storyList.stories.push(newStory);
 
     return newStory;
-    //TODO: add to list???
   }
 }
 
@@ -208,15 +208,14 @@ class User {
   /** accepts story instance; adds to favorites list;
    *  sends request to inform API */
   async addFavorite(story) {
-    // console.log(`addFavorite: `, story);
-    this.favorites.push(story);
-///users/username/favorites/storyId
     const token = this.loginToken;
     await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "POST",
       data: { token },
     });
+
+    this.favorites.push(story);
   }
 
   async removeFavorite(story) {
