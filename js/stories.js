@@ -27,16 +27,11 @@ $home.on("click", () => {
  */
 
 function generateStoryMarkup(story) {
-  //only show if logged in?
   const hostName = story.getHostName();
-
+  //preserve favorite state
   return $(`
       <li id="${story.storyId}">
-
-        <span>
-        <i class="fa-regular fa-bookmark"></i>
-        </span>
-
+        ${saveFavoriteIcon(story, currentUser)}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -45,6 +40,21 @@ function generateStoryMarkup(story) {
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
+}
+
+function saveFavoriteIcon(story, user) {
+  const favoriteStory = user.savedFavorite(story);
+  if (favoriteStory) {
+    return `
+    <span>
+    <i class="fa-solid fa-bookmark"></i>
+    </span>`;
+  } else {
+    return `
+    <span>
+    <i class="fa-regular fa-bookmark"></i>
+    </span>`;
+  }
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -110,7 +120,6 @@ async function toggleFavorite(evt) {
   //gets ID from API...again?? via static lookup? why???
   const $returnedStory = await Story.getStoryId($targetStoryId);
   const $returnedStoryId = $returnedStory.storyId;
-  console.log("$returnedStoryId: ", $returnedStoryId);
 
   //doesn't need to be jQuery object
   let targetStory = storyList.stories.find(story =>

@@ -220,7 +220,6 @@ class User {
   /** accepts story instance; adds to favorites list;
    *  sends request to inform API */
   async addFavorite(story) {
-    console.log('story:', story);
     const token = this.loginToken;
     await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
@@ -232,7 +231,6 @@ class User {
   }
 
   async removeFavorite(story) {
-    //TODO: story is undefined
 
     console.log(`removeFavoriteTarget: `, story);
     const storyIndex = this.favorites.indexOf(story);
@@ -249,4 +247,7 @@ class User {
     });
   }
 
+  savedFavorite(story) {
+    return this.favorites.some(f => f.storyId === story.storyId);
+  }
 }
