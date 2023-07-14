@@ -27,14 +27,16 @@ $home.on("click", () => {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
-
+  //only show if logged in?
   const hostName = story.getHostName();
+
   return $(`
       <li id="${story.storyId}">
+
         <span>
         <i class="fa-regular fa-bookmark"></i>
         </span>
+
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -103,37 +105,31 @@ $favoritesButton.on("click", putFavoritesOnPage);
 /** Adds/removes favorite and toggles icon */
 
 async function toggleFavorite(evt) {
-  //target story and addFavorite/removeFavorite
   const $target = $(evt.target);//.closest("i");
-  // console.log("$target: ", $target);
   const $targetStoryId = $target.closest("li").attr("id");
-  console.log("$targetStoryId: ", $targetStoryId);
-
+  //gets ID from API...again?? via static lookup? why???
   const $returnedStory = await Story.getStoryId($targetStoryId);
   const $returnedStoryId = $returnedStory.storyId;
-
   console.log("$returnedStoryId: ", $returnedStoryId);
 
-  //doesn't need to be jQuery object!
-  const targetStory = storyList.stories.find(story =>
+  //doesn't need to be jQuery object
+  let targetStory = storyList.stories.find(story =>
     story.storyId === $returnedStoryId);
-    //filter returns [Story] vs Story
-  //  console.log('targetStory: ', targetStory);
-  if ($target.hasClass("fa-regular")) {
-    // console.log($targetStory);
-    await currentUser.addFavorite(targetStory);
+  //combine these two /\   \/
+  if ($target.hasClass("fa-solid")) {
+    targetStory = currentUser.favorites.find(story =>
+      story.storyId === $returnedStoryId);
+    await currentUser.removeFavorite(targetStory);
     $target.toggleClass("fa-regular fa-solid");
   } else {
-    // console.log($targetStory);
-    await currentUser.removeFavorite(targetStory);
+    await currentUser.addFavorite(targetStory);
     $target.toggleClass("fa-regular fa-solid");
   }
 }
 
 $allStoriesList.on("click", ".fa-bookmark", toggleFavorite);
-//on button instead? gets mad when clicking elsewhere *add argument!
 
 $favoriteStoriesList.on("click", ".fa-bookmark", toggleFavorite);
 
-// const $storiesLists = ;
+// const $bothStoriesLists ?
 

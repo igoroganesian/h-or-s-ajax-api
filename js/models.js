@@ -84,13 +84,13 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory(currentUser, {title, author, url}) {
+  async addStory(currentUser, { title, author, url }) {
     console.log('currentUser:', currentUser);
     const token = currentUser.loginToken;
 
     const response = await axios({
       url: `${BASE_URL}/stories`,
-      data: {token, story: {title, author, url}},
+      data: { token, story: { title, author, url } },
       method: "POST",
     });
 
@@ -220,6 +220,7 @@ class User {
   /** accepts story instance; adds to favorites list;
    *  sends request to inform API */
   async addFavorite(story) {
+    console.log('story:', story);
     const token = this.loginToken;
     await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
@@ -231,25 +232,21 @@ class User {
   }
 
   async removeFavorite(story) {
-    //TODO: favoritesList can't read storyId from click handler
+    //TODO: story is undefined
 
-    console.log(`removeFavorite: `, story);
+    console.log(`removeFavoriteTarget: `, story);
     const storyIndex = this.favorites.indexOf(story);
     this.favorites.splice(storyIndex, 1);
-///users/username/favorites/storyId
-    const $receivedStory = Story.getStoryId(story.storyId);
-    console.log("$receivedStory: ", $receivedStory);
-    console.log(typeof $receivedStory);
-    const $getId = $receivedStory;
-    console.log("$getId:", $getId);
-    console.log(typeof $getId);
-    // const token = this.loginToken;
-    // await axios({
-    //   // url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
-    //   url: `${BASE_URL}/users/${this.username}/favorites/${$getId}`,
-    //   method: "DELETE",
-    //   data: { token },
-    // });
+
+    const $receivedStory = await Story.getStoryId(story.storyId);
+    const $getId = $receivedStory.storyId;
+    const token = this.loginToken;
+
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${$getId}`,
+      method: "DELETE",
+      data: { token },
+    });
   }
 
 }
