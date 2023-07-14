@@ -22,7 +22,6 @@ async function getAndShowStoriesOnStart() {
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
-  //<i class="fa-solid fa-bookmark"></i>
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
@@ -92,17 +91,25 @@ function putFavoritesOnPage() {
 
 $favoritesButton.on("click", putFavoritesOnPage);
 
-/** Bookmarks site and toggles icon */
+/** Adds/removes favorite and toggles icon (currently UI only) */
 
 function toggleFavorite(evt) {
+  //localStorage to stay on refresh? >:(
+
+  //target story and addFavorite/removeFavorite
   const $target = $(evt.target);
+
 
   if ($target.hasClass("fa-regular")) {
     $target.closest("i").removeClass("fa-regular");
     $target.closest("i").addClass("fa-solid");
+    console.log($target.closest("li").storyId); //??
+    // addFavorite(story); //story = ?
   } else {
     $target.closest("i").removeClass("fa-solid");
     $target.closest("i").addClass("fa-regular");
+    console.log($target.closest("li").story.storyId); //??
+    // removeFavorite(story); //story = ?
   }
 }
 
