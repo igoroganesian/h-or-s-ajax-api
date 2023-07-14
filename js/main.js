@@ -11,7 +11,9 @@ const $favoriteStoriesList = $("#favorite-stories-list");
 const $storySubmitForm = $("#story-submit-form");
 const $storySubmitButton = $("#story-submit-button");
 
-const $favoritesButton = $("#nav-favorites")
+const $favoritesButton = $("#nav-favorites");
+const $notBookmarkedButton = $(".fa-regular");
+const $bookmarkedButton = $(".fa-solid");
 
 const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");

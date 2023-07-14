@@ -22,9 +22,13 @@ async function getAndShowStoriesOnStart() {
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
+  //<i class="fa-solid fa-bookmark"></i>
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+        <span>
+        <i class="fa-regular fa-bookmark"></i>
+        </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -87,3 +91,19 @@ function putFavoritesOnPage() {
 }
 
 $favoritesButton.on("click", putFavoritesOnPage);
+
+/** Bookmarks site and toggles icon */
+
+function toggleFavorite(evt) {
+  const $target = $(evt.target);
+
+  if ($target.hasClass("fa-regular")) {
+    $target.closest("i").removeClass("fa-regular");
+    $target.closest("i").addClass("fa-solid");
+  } else {
+    $target.closest("i").removeClass("fa-solid");
+    $target.closest("i").addClass("fa-regular");
+  }
+}
+
+$allStoriesList.on("click", toggleFavorite);
